@@ -41,8 +41,11 @@ def run_migrations_offline() -> None:
     """
     # url = config.get_main_option("sqlalchemy.url")
     url = os.environ.get("DATABASE_URL")
+    print(f"DATABASE url is => {url}")
     if not url:
-        raise ValueError(f"DATABASE_URL is not valid. Please provide DATABASE_URL as environment variables.")
+        raise ValueError(
+            f"DATABASE_URL is not valid. Please provide DATABASE_URL as environment variables."
+        )
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -55,22 +58,25 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
+    from sqlalchemy import create_engine
+
     """Run migrations in 'online' mode.
 
     In this scenario we need to create an Engine
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+
+    url = os.environ.get("DATABASE_URL")
+    print(f"DATABASE url is => {url}")
+    if not url:
+        raise ValueError(
+            f"DATABASE_URL is not valid. Please provide DATABASE_URL as environment variables."
+        )
+    connectable = create_engine(url)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
