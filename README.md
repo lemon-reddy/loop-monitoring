@@ -15,6 +15,10 @@ python -m migrations.seed.store_timezones
 uvicorn monitor:app     # Runs on port 8000
 ```
 
+https://github.com/lemon-reddy/loop-monitoring/assets/75769543/ddb9a8c8-c7e2-4367-984c-d98939cf873b
+
+
+
 ### Tech Stack
 **Python**: Python3.11.6
 **Backend Framework**: FastAPI
