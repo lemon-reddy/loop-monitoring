@@ -1,7 +1,7 @@
 from sqlalchemy.orm import declarative_base
 import enum
 
-from sqlalchemy import Column, BIGINT, VARCHAR, TIME, TIMESTAMP, INT, Enum
+from sqlalchemy import Column, BIGINT, VARCHAR, TIME, TIMESTAMP, INT, Enum, BINARY, func
 
 Base = declarative_base()
 
@@ -9,6 +9,13 @@ Base = declarative_base()
 class Status(enum.Enum):
     active = 1
     inactive = 2
+
+
+class JobStatus(enum.Enum):
+    pending = 0
+    running = 1
+    done = 2
+    failed = 3
 
 
 class StoreTimings(Base):
@@ -32,3 +39,13 @@ class StoreTimezones(Base):
     __tablename__ = "store_timezones"
     store_id = Column("store_id", BIGINT, primary_key=True)
     timezone_str = Column("timezone_str", VARCHAR(255), nullable=False)
+
+
+class Reports(Base):
+    __tablename__ = "reports"
+    report_id = Column("report_id", BINARY, primary_key=True)
+    status = Column("status", Enum(JobStatus), default=JobStatus.pending.name)
+    created_at = Column("created_at", TIMESTAMP, server_default=func.now())
+    started_at = Column("started_at", TIMESTAMP, nullable=True)
+    finished_at = Column("finished_at", TIMESTAMP, nullable=False)
+    filename = Column("filename", VARCHAR(255), nullable=True)

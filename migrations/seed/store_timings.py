@@ -1,6 +1,6 @@
 from . import read_csv
 from monitor.model import StoreTimings
-from monitor.sql import session
+from monitor.session import db_session as session
 
 
 def seed_store_timings(filename="menu_hours.csv"):

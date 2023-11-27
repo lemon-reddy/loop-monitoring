@@ -1,6 +1,6 @@
 from . import read_csv
 from monitor.model import StoreTimezones
-from monitor.sql import session
+from monitor.session import db_session as session
 
 
 def seed_store_timings(filename="bq_results.csv"):
