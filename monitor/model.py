@@ -14,7 +14,7 @@ class Status(enum.Enum):
 class JobStatus(enum.Enum):
     pending = 0
     running = 1
-    done = 2
+    finished = 2
     failed = 3
 
 
@@ -43,7 +43,7 @@ class StoreTimezones(Base):
 
 class Reports(Base):
     __tablename__ = "reports"
-    report_id = Column("report_id", BINARY, primary_key=True)
+    report_id = Column("report_id", VARCHAR(16), primary_key=True)
     status = Column("status", Enum(JobStatus), default=JobStatus.pending.name)
     created_at = Column("created_at", TIMESTAMP, server_default=func.now())
     started_at = Column("started_at", TIMESTAMP, nullable=True)
